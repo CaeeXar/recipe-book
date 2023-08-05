@@ -10,9 +10,11 @@ import { HomeComponent } from './home/home.component';
 // material-ui
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationComponent } from './navigation/navigation.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, NavigationComponent, NotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
