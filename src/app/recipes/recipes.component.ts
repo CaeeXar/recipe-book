@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-
-type Kaka = {
-  title: string;
-  description: string;
-};
+import { Recipe } from '../interfaces/recipe';
+import { RecipeServiceService } from '../services/recipe-service.service';
 
 @Component({
   selector: 'app-recipes',
@@ -15,53 +12,27 @@ type Kaka = {
 export class RecipesComponent implements OnInit {
   inputSearch = '';
   cols!: number;
-  cards: Kaka[] = [
-    {
-      title: 'TEST GERICHT',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean mi nisi, vulputate a porta quis, egestas at ligula. Ut ultricies dolor sed luctus vulputate. In laoreet ligula at sapien semper, a porta sem lobortis. Nullam ac ex scelerisque nisi pharetra auctor ac at augue. Integer iaculis faucibus congue. Nulla laoreet ullamcorper enim sed fermentum. Donec eget rutrum urna, et luctus erat. Curabitur a purus pharetra, iaculis eros ac, luctus odio. Vestibulum nec vehicula metus, sed egestas mauris. Ut dignissim pretium ex. Praesent venenatis tellus id urna semper ultrices. Etiam ante mauris, gravida ac auctor at, rutrum vitae metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque quis diam neque. Duis mi est, dapibus finibus molestie vel, placerat vitae dolor. Sed congue eros nec metus cursus imperdiet. ',
-    },
-    {
-      title: 'Pesto Pasta',
-      description: 'Geile Pesto aus frischen Basilikum-Blüten.',
-    },
-    {
-      title: '"Steinofen" Pizza',
-      description:
-        'Original italienischer Teig mit Steinofensimulation für den perfekten Knusperfaktor.',
-    },
-    {
-      title: 'Asia Nudel-/Reisbox',
-      description: 'Hähnchen und Gemüse mit Reis oder Nudel und dazu Teriyaki',
-    },
-    { title: 'Teriyaki Sauce', description: 'Beste. Teriyaki. Sauce. Ever.' },
-    {
-      title: 'Pesto Pasta',
-      description: 'Geile Pesto aus frischen Basilikum-Blüten.',
-    },
-    {
-      title: '"Steinofen" Pizza',
-      description:
-        'Original italienischer Teig mit Steinofensimulation für den perfekten Knusperfaktor.',
-    },
-    {
-      title: 'Asia Nudel-/Reisbox',
-      description: 'Hähnchen und Gemüse mit Reis oder Nudel und dazu Teriyaki',
-    },
-    { title: 'Teriyaki Sauce', description: 'Beste. Teriyaki. Sauce. Ever.' },
-  ];
-  filteredCards: Kaka[] = [];
+  recipes: Recipe[] = [];
+  filteredRecipes: Recipe[] = [];
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.cards = this.cards.map((card) =>
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private recipeService: RecipeServiceService
+  ) {
+    this.recipes = this.recipes.map((card) =>
       card.description.length > 200
         ? { ...card, description: card.description.substring(0, 225) + '...' }
         : card
     );
-    this.filteredCards = this.cards;
+    this.filteredRecipes = this.recipes;
   }
 
   ngOnInit() {
+    this.initColumns();
+    this.getRecipes();
+  }
+
+  initColumns() {
     this.breakpointObserver
       .observe([
         Breakpoints.XSmall,
@@ -86,14 +57,23 @@ export class RecipesComponent implements OnInit {
       });
   }
 
+  getRecipes(): void {
+    this.recipeService
+      .getRecipes()
+      .subscribe((recipes) => (this.recipes = recipes));
+    this.filteredRecipes = this.recipes;
+  }
+
+  addRecipes(): void {}
+
   onSearch(): void {
     if (this.inputSearch.length < 3) {
-      this.filteredCards = this.cards;
+      this.filteredRecipes = this.recipes;
       return;
     }
 
-    this.filteredCards = this.cards.filter((card: Kaka) => {
-      return Object.values(card)
+    this.filteredRecipes = this.recipes.filter((recipe: Recipe) => {
+      return Object.values(recipe)
         .join(' ')
         .toLowerCase()
         .includes(this.inputSearch.toLowerCase());

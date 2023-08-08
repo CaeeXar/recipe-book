@@ -8,24 +8,41 @@
   </button>
 </mat-form-field>
 
-<div *ngIf="filteredCards.length == 0">Nothing found ¯\_(ツ)_/¯</div>
+<div *ngIf="filteredRecipes.length == 0">
+  <p>Nothing found ¯\_(ツ)_/¯</p>
+</div>
 
-<mat-grid-list [cols]="cols" gutterSize="10px" rowHeight="410px">
-  <mat-grid-tile *ngFor="let card of filteredCards">
+<mat-grid-list
+  *ngIf="filteredRecipes.length > 0"
+  [cols]="cols"
+  gutterSize="10px"
+  rowHeight="410px"
+>
+  <mat-grid-tile *ngFor="let recipe of filteredRecipes">
     <mat-card>
       <mat-card-header style="text-align: center; display: block">
-        <mat-card-title>{{ card.title }}</mat-card-title>
+        <mat-card-title>{{ recipe.title }}</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
         <img src="../../assets/home.jpg" />
 
-        <p class="asdf">{{ card.description }}</p>
+        <p class="asdf">{{ recipe.description }}</p>
       </mat-card-content>
 
       <mat-card-footer>
-        <a mat-raised-button color="primary">SHOW</a>
+        <a
+          mat-raised-button
+          color="primary"
+          routerLink="/recipes/{{ recipe.id }}"
+        >
+          SHOW
+        </a>
       </mat-card-footer>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
+
+<button mat-fab color="primary" style="margin: 10px 0px">
+  <mat-icon>add</mat-icon>
+</button>

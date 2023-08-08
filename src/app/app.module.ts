@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './navigation/navigation.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RecipesComponent } from './recipes/recipes.component';
+import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { RecipesComponent } from './recipes/recipes.component';
     NavigationComponent,
     NotFoundComponent,
     RecipesComponent,
+    RecipeDetailComponent,
   ],
   imports: [
     BrowserModule,
