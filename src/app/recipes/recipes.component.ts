@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-import { Recipe } from '../interfaces/recipe';
-import { RecipeServiceService } from '../services/recipe-service.service';
+import { Recipe } from '../types/recipe';
+import { RecipeService } from '../services/recipe.service';
 
 @Component({
   selector: 'app-recipes',
@@ -17,7 +17,7 @@ export class RecipesComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private recipeService: RecipeServiceService
+    private recipeService: RecipeService
   ) {
     this.recipes = this.recipes.map((card) =>
       card.description.length > 200

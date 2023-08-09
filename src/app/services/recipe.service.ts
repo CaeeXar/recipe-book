@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Recipe } from '../interfaces/recipe';
+import { Recipe } from '../types/recipe';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RecipeServiceService {
+export class RecipeService {
   recipes: Recipe[] = [
     {
       id: 1,
@@ -46,9 +46,13 @@ export class RecipeServiceService {
 
   constructor() {}
 
-  getRecipes(empty?: boolean): Observable<Recipe[]> {
-    if (empty) return of([]);
-
+  getRecipes(): Observable<Recipe[]> {
     return of(this.recipes);
+  }
+
+  getRecipeById(id: number): Observable<Recipe> {
+    const recipe =
+      this.recipes.filter((recipe) => recipe.id === id)[0] || undefined;
+    return of(recipe);
   }
 }

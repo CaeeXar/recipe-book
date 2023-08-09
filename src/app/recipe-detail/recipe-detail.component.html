@@ -1,0 +1,3 @@
+<ul *ngFor="let prop of recipe | keyvalue; let i = index">
+  <li>{{ prop.key + ": " + prop.value }}</li>
+</ul>
