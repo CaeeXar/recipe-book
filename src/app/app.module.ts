@@ -2,6 +2,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // application
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +30,7 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
 
     // Material UI
     MaterialModule,

@@ -6,18 +6,21 @@ const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
+require('dotenv').config();
 
 // TODO: outsource into database.ts
-const db = new sqlite3.Database(':memory:');
-db.serialize(() => {
-  db.run('CREATE TABLE lorem (id INTEGER, info TEXT, test TEXT)');
+const db = new sqlite3.Database(
+  process.env['NG_APP_DATABASE'],
+  sqlite3.OPEN_READWRITE,
+  (err: Error) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
 
-  const stmt = db.prepare('INSERT INTO lorem VALUES (?, ?, ?)');
-  for (let i = 0; i < 10; i++) {
-    stmt.run(i, 'Ipsum ' + i, 'HIC SEDET');
+    console.log('Connected to database!');
   }
-  stmt.finalize();
-});
+);
 
 // server-setup (CORS for dev)
 app.use(
@@ -27,7 +30,7 @@ app.use(
   })
 );
 
-app.get('/api/test', (req: any, res: any) => {
+app.get('/api/recipes', (req: any, res: any) => {
   let ret: any[] = [];
 
   /* 
@@ -36,19 +39,15 @@ app.get('/api/test', (req: any, res: any) => {
     after all rows were called a complete-CB will be called 
   */
   db.each(
-    'SELECT * FROM lorem', // SQL-stmt
-    (err: any, row: any) => {
-      console.log(row);
-      ret.push(row);
-    }, // callback
+    'SELECT * FROM recipe', // SQL-stmt
+    (err: any, row: any) => ret.push(row), // callback
     () => res.send(ret) // completion callback
   );
-
   // TODO: logic for opening/closing
   // db.close();
 });
 
 const port = 5000;
 app.listen(port, () => {
-  console.log('server running on http://localhost:' + port);
+  console.log('Server is running on "http://localhost:' + port + '"');
 });

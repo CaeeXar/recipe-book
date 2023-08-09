@@ -18,14 +18,7 @@ export class RecipesComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private recipeService: RecipeService
-  ) {
-    this.recipes = this.recipes.map((card) =>
-      card.description.length > 200
-        ? { ...card, description: card.description.substring(0, 225) + '...' }
-        : card
-    );
-    this.filteredRecipes = this.recipes;
-  }
+  ) {}
 
   ngOnInit() {
     this.initColumns();
@@ -58,10 +51,15 @@ export class RecipesComponent implements OnInit {
   }
 
   getRecipes(): void {
-    this.recipeService
-      .getRecipes()
-      .subscribe((recipes) => (this.recipes = recipes));
-    this.filteredRecipes = this.recipes;
+    this.recipeService.getRecipes().subscribe((recipes) => {
+      this.recipes = recipes;
+      this.recipes = this.recipes.map((card) =>
+        card.description.length > 200
+          ? { ...card, description: card.description.substring(0, 225) + '...' }
+          : card
+      );
+      this.filteredRecipes = this.recipes;
+    });
   }
 
   addRecipes(): void {}
