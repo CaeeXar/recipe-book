@@ -16,21 +16,23 @@
   *ngIf="filteredRecipes.length > 0"
   [cols]="cols"
   gutterSize="10px"
-  rowHeight="410px"
+  rowHeight="400px"
 >
   <mat-grid-tile *ngFor="let recipe of filteredRecipes">
-    <mat-card>
-      <mat-card-header style="text-align: center; display: block">
-        <mat-card-title>{{ recipe.title }}</mat-card-title>
-      </mat-card-header>
+    <div class="card-container">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ recipe.title }}</mat-card-title>
+        </mat-card-header>
 
-      <mat-card-content>
-        <img src="../../assets/home.jpg" />
+        <mat-card-content>
+          <img src="../../assets/home.jpg" />
 
-        <p class="asdf">{{ recipe.description }}</p>
-      </mat-card-content>
+          <p>{{ recipe.description }}</p>
+        </mat-card-content>
+      </mat-card>
 
-      <mat-card-footer>
+      <div class="overlay">
         <a
           mat-raised-button
           color="primary"
@@ -38,11 +40,11 @@
         >
           SHOW
         </a>
-      </mat-card-footer>
-    </mat-card>
+      </div>
+    </div>
   </mat-grid-tile>
 </mat-grid-list>
 
-<button mat-fab color="primary" style="margin: 10px 0px">
+<button mat-fab color="primary" class="btn-add">
   <mat-icon>add</mat-icon>
 </button>
