@@ -22,7 +22,9 @@ export class RecipeService {
   }
 
   getRecipeById(id: number): Observable<Recipe> {
-    return of({} as Recipe);
+    return this.http
+      .get<Recipe>(this.apiUrl + '/recipes/' + id)
+      .pipe(catchError(this.handleError<Recipe>('', undefined)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
