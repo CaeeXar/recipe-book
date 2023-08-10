@@ -11,7 +11,8 @@ export class RecipeService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  apiUrl = process.env['NG_APP_API'];
+  // apiUrl = process.env['NG_APP_API'];
+  apiUrl = 'http://localhost:5000/api';
 
   constructor(private http: HttpClient) {}
 

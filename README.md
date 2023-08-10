@@ -4,5 +4,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `npm start` to start frontend.
-Run `npx nodemon <server.ts>` to start backend.
+Run `npm run start` in both the frontend-folder and the backend-folder
