@@ -1,63 +1,56 @@
-import express, { Application } from "express";
+import express, { Response, Request } from "express";
 import cors from "cors";
-import * as sqlite3 from "sqlite3";
-// require("dotenv").config();
+import dotenv from "dotenv";
+import { getRecipe, getRecipes } from "./database";
+import { Recipe } from "../../frontend/src/app/types/recipe";
 
-const db = new sqlite3.Database(
-  // process.env["NG_APP_DATABASE"],
-  "D:/SQLite/databases/RecipeDB.db",
-  sqlite3.OPEN_READWRITE,
-  (err) => {
-    if (err) {
-      console.error(err);
+//#region LOGIC
+
+function initServer(): void {
+  dotenv.config();
+  const PORT: number = Number(process.env.PORT || 4201);
+
+  server = express();
+  server.use(
+    cors({
+      credentials: true,
+      origin: process.env.ORIGIN,
+    })
+  );
+
+  server.listen(PORT, () => {
+    console.log('Server started on "http://localhost:' + PORT + '"');
+  });
+}
+
+function initRoutes(): void {
+  server.get("/api/recipes", async (req: Request, res: Response) => {
+    let recipes: Recipe[] = await getRecipes();
+
+    // setTimeout(() => res.send(recipes), 1000);
+    res.send(recipes);
+  });
+
+  server.get("/api/recipes/:id", async (req: Request, res: Response) => {
+    if (!req.params?.id) {
+      res.send(undefined);
       return;
     }
 
-    console.log("Connected to database!");
-  }
-);
+    const id: number = Number(req.params.id);
+    let recipe: Recipe = await getRecipe(id);
 
-const app: Application = express();
-app.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:4200",
-  })
-);
+    // setTimeout(() => res.send(recipe), 1000);
+    res.send(recipe);
+  });
+}
 
-app.get("/api/recipes", (req, res) => {
-  let ret: any[] = [];
+//#endregion LOGIC
 
-  db.each(
-    "SELECT * FROM recipe", // SQL-stmt
-    (err: any, row: any) => ret.push(row), // callback
-    () => res.send(ret) // completion callback
-  );
-});
+//#region MAIN
 
-app.get("/api/recipes/:id", (req: any, res: any) => {
-  if (!req.params?.id) {
-    res.send({});
-    return;
-  }
+let server: express.Application;
+initServer();
+initRoutes();
 
-  const id: number = Number(req.params.id);
-  let ret: any[] = [];
-  /*
-    each(sql [, param, ...] [, callback] [, complete])
-    callback has signature of "function (err, row) {}"
-    after all rows were called a complete-CB will be called
-  */
-  db.each(
-    "SELECT * FROM recipe", // SQL-stmt
-    (err: any, row: any) => {
-      if (row.id === id) ret.push(row);
-    }, // callback
-    () => res.send(ret.length > 0 ? ret[0] : undefined) // completion callback
-  );
-});
-
-const port = 5000;
-app.listen(port, () => {
-  console.log('Server started on "http://localhost:' + port + '"');
-});
+//#region MAIN
