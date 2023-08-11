@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const materialModules = [
   MatIconModule,
@@ -30,6 +31,7 @@ const materialModules = [
   MatInputModule,
   MatDividerModule,
   MatGridListModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({

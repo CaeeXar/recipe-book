@@ -1,50 +1,61 @@
-<mat-form-field class="search-input">
-  <mat-label>Search...</mat-label>
-
-  <input matInput type="text" [(ngModel)]="inputSearch" (input)="onSearch()" />
-
-  <button color="primary" matSuffix mat-icon-button (click)="onSearch()">
-    <mat-icon>search</mat-icon>
-  </button>
-</mat-form-field>
-
-<div *ngIf="filteredRecipes.length == 0">
-  <p>Nothing found ¯\_(ツ)_/¯</p>
+<div *ngIf="loading" class="loader">
+  <mat-spinner></mat-spinner>
 </div>
 
-<mat-grid-list
-  *ngIf="filteredRecipes.length > 0"
-  [cols]="cols"
-  gutterSize="10px"
-  rowHeight="400px"
->
-  <mat-grid-tile *ngFor="let recipe of filteredRecipes">
-    <div class="card-container">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ recipe.title }}</mat-card-title>
-        </mat-card-header>
+<div *ngIf="!loading">
+  <mat-form-field class="search-input">
+    <mat-label>Search...</mat-label>
 
-        <mat-card-content>
-          <img src="../../assets/home.jpg" />
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="inputSearch"
+      (input)="onSearch()"
+    />
 
-          <p>{{ recipe.description }}</p>
-        </mat-card-content>
-      </mat-card>
+    <button color="primary" matSuffix mat-icon-button (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
 
-      <div class="overlay">
-        <a
-          mat-raised-button
-          color="primary"
-          routerLink="/recipes/{{ recipe.id }}"
-        >
-          SHOW
-        </a>
+  <div *ngIf="filteredRecipes.length == 0">
+    <p>Nothing found ¯\_(ツ)_/¯</p>
+  </div>
+
+  <mat-grid-list
+    *ngIf="filteredRecipes.length > 0"
+    [cols]="cols"
+    gutterSize="10px"
+    rowHeight="400px"
+  >
+    <mat-grid-tile *ngFor="let recipe of filteredRecipes">
+      <div class="card-container">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ recipe.title }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <img src="../../assets/home.jpg" />
+
+            <p>{{ recipe.description }}</p>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="overlay">
+          <a
+            mat-raised-button
+            color="primary"
+            routerLink="/recipes/{{ recipe.id }}"
+          >
+            SHOW
+          </a>
+        </div>
       </div>
-    </div>
-  </mat-grid-tile>
-</mat-grid-list>
+    </mat-grid-tile>
+  </mat-grid-list>
 
-<button mat-fab color="primary" class="btn-add">
-  <mat-icon>add</mat-icon>
-</button>
+  <button mat-fab color="primary" class="btn-add">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

@@ -12,7 +12,7 @@ export class RecipeService {
   };
 
   // apiUrl = process.env['NG_APP_API'];
-  apiUrl = 'http://localhost:5000/api';
+  apiUrl = 'http://localhost:4201/api';
 
   constructor(private http: HttpClient) {}
 

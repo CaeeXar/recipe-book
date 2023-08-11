@@ -14,6 +14,7 @@ export class RecipesComponent implements OnInit {
   cols!: number;
   recipes: Recipe[] = [];
   filteredRecipes: Recipe[] = [];
+  loading = true;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -59,6 +60,7 @@ export class RecipesComponent implements OnInit {
           : card
       );
       this.filteredRecipes = this.recipes;
+      this.loading = false;
     });
   }
 

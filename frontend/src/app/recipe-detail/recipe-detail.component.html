@@ -1,4 +1,6 @@
-<div *ngIf="!recipe">kaka</div>
+<div *ngIf="!recipe" class="loader">
+  <mat-spinner></mat-spinner>
+</div>
 
 <ul *ngFor="let prop of recipe | keyvalue; let i = index">
   <li>{{ prop.key + ": " + prop.value }}</li>
