@@ -1,8 +1,8 @@
-<div *ngIf="loading" class="loader">
+<div *ngIf="recipes.length === 0" class="loader">
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="!loading">
+<div *ngIf="recipes.length > 0">
   <mat-form-field class="search-input">
     <mat-label>Search...</mat-label>
 

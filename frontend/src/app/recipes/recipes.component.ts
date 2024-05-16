@@ -14,16 +14,15 @@ export class RecipesComponent implements OnInit {
   cols!: number;
   recipes: Recipe[] = [];
   filteredRecipes: Recipe[] = [];
-  loading = true;
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit() {
-    this.initColumns();
     this.getRecipes();
+    this.initColumns();
   }
 
   initColumns() {
@@ -53,14 +52,8 @@ export class RecipesComponent implements OnInit {
 
   getRecipes(): void {
     this.recipeService.getRecipes().subscribe((recipes) => {
-      this.recipes = recipes;
-      this.recipes = this.recipes.map((card) =>
-        card.description.length > 200
-          ? { ...card, description: card.description.substring(0, 225) + '...' }
-          : card
-      );
+      this.recipes = this.parse(recipes);
       this.filteredRecipes = this.recipes;
-      this.loading = false;
     });
   }
 
@@ -77,6 +70,16 @@ export class RecipesComponent implements OnInit {
         .join(' ')
         .toLowerCase()
         .includes(this.inputSearch.toLowerCase());
+    });
+  }
+
+  private parse(recipes: Recipe[]): Recipe[] {
+    return recipes.map((card) => {
+      if (card.description.length > 200) {
+        card.description = card.description.substring(0, 225) + '...';
+      }
+
+      return card;
     });
   }
 }

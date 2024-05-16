@@ -15,7 +15,7 @@ const database: sqlite3.Database = new sqlite3.Database(
       return;
     }
 
-    console.log("Connected to database etablished.");
+    console.log("Connection to database etablished.");
   }
 );
 
