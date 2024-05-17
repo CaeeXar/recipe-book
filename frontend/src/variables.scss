@@ -1,8 +1,12 @@
 /* variables.scss */
-@import "@angular/material/theming";
+// @import "@angular/material/theming";
+@use "@angular/material" as mat;
 
-$primaryPalette: mat-palette($mat-deep-purple);
-$accentPalette: mat-palette($mat-amber, A200, A100, A400);
+// Include the default Angular Material styles.
+@include mat.core();
+
+$primaryPalette: mat.define-palette(mat.$deep-purple-palette);
+$accentPalette: mat.define-palette(mat.$amber-palette, A200, A100, A400);
 
 // the default warn palette is red, so use that if the theme doesn't define one
-$warnPalette: mat-palette($mat-red);
+$warnPalette: mat.define-palette(mat.$red-palette);
